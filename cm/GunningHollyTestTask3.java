@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-public class GunningHollyTestTask2
+public class GunningHollyTestTask3
 {
     // 18. All parameters pass
     @Test
