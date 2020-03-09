@@ -1,5 +1,9 @@
 package cm;
 
+import com.sun.org.apache.xalan.internal.xsltc.dom.KeyIndex;
+import sun.reflect.generics.visitor.Visitor;
+
+import javax.tools.JavaFileObject;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +47,7 @@ public class Rate {
 
     /**
      * Checks if two collections of periods are valid together
+     *
      * @param periods1
      * @param periods2
      * @return true if the two collections of periods are valid together
@@ -59,6 +64,7 @@ public class Rate {
 
     /**
      * checks if a collection of periods is valid
+     *
      * @param list the collection of periods to check
      * @return true if the periods do not overlap
      */
@@ -67,9 +73,9 @@ public class Rate {
         if (list.size() >= 2) {
             Period secondPeriod;
             int i = 0;
-            int lastIndex = list.size()-1;
+            int lastIndex = list.size() - 1;
             while (i < lastIndex && isValid) {
-                isValid = isValidPeriod(list.get(i), ((List<Period>)list).subList(i + 1, lastIndex+1));
+                isValid = isValidPeriod(list.get(i), ((List<Period>) list).subList(i + 1, lastIndex + 1));
                 i++;
             }
         }
@@ -78,8 +84,9 @@ public class Rate {
 
     /**
      * checks if a period is a valid addition to a collection of periods
+     *
      * @param period the Period addition
-     * @param list the collection of periods to check
+     * @param list   the collection of periods to check
      * @return true if the period does not overlap in the collecton of periods
      */
     private Boolean isValidPeriod(Period period, List<Period> list) {
@@ -91,11 +98,53 @@ public class Rate {
         }
         return isValid;
     }
+
     public BigDecimal calculate(Period periodStay) {
+
         int normalRateHours = periodStay.occurences(normal);
         int reducedRateHours = periodStay.occurences(reduced);
-        return (this.hourlyNormalRate.multiply(BigDecimal.valueOf(normalRateHours))).add(
+        BigDecimal baseCost = this.hourlyNormalRate.multiply(BigDecimal.valueOf(normalRateHours)).add(
                 this.hourlyReducedRate.multiply(BigDecimal.valueOf(reducedRateHours)));
-    }
 
+        if (this.kind == CarParkKind.VISITOR) {
+            BigDecimal firstEightEuro = new BigDecimal("8");
+            BigDecimal reduction = new BigDecimal("2");
+
+            if (baseCost.compareTo(firstEightEuro) <= 0) {
+                return new BigDecimal(0);
+            } else {
+                return baseCost.subtract(firstEightEuro).divide(reduction);
+            }
+        }
+        else if (this.kind == CarParkKind.MANAGEMENT) {
+            BigDecimal minPay = new BigDecimal("3");
+
+            if (baseCost.compareTo(minPay) < 0) {
+                return minPay;
+            } else {
+                return baseCost;
+            }
+        }
+        else if (this.kind == CarParkKind.STUDENT) {
+            BigDecimal standard = new BigDecimal("5.50");
+            BigDecimal remainder = baseCost.subtract(standard);
+            BigDecimal threeQuarter = new BigDecimal("0.75");
+
+            if (baseCost.compareTo(standard) <= 0) {
+                return baseCost;
+            } else if (baseCost.compareTo(standard) > 0) {
+                baseCost = threeQuarter.multiply(remainder).add(standard);
+            }
+        }
+        else if (this.kind == CarParkKind.STAFF) {
+            BigDecimal maxPay = new BigDecimal("16");
+
+            if (baseCost.compareTo(maxPay) < 0) {
+                return baseCost;
+            } else {
+                return maxPay;
+            }
+        }
+        return baseCost;
+    }
 }

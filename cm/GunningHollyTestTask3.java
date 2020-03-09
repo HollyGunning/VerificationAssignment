@@ -365,7 +365,7 @@ public class GunningHollyTestTask3
         Rate rate = new Rate(kind, normalRate, reducedRate, rP, nP);
         Period stayPeriod = new Period(2,7);
 
-        assertEquals(rate.calculate(stayPeriod), new BigDecimal(50));
+        assertEquals(rate.calculate(stayPeriod), new BigDecimal(21));
     }
 
     // 21. During reducedPeriod
@@ -385,7 +385,7 @@ public class GunningHollyTestTask3
         Rate rate = new Rate(kind, normalRate, reducedRate, rP, nP);
         Period stayPeriod = new Period(15,18);
 
-        assertEquals(rate.calculate(stayPeriod), new BigDecimal(15));
+        assertEquals(rate.calculate(stayPeriod), new BigDecimal("12.6250"));
     }
 
     // 22. During freePeriod
@@ -446,7 +446,7 @@ public class GunningHollyTestTask3
         Rate rate = new Rate(kind, normalRate, reducedRate, rP, nP);
         Period stayPeriod = new Period(19,21);
 
-        assertEquals(new BigDecimal(5),rate.calculate(stayPeriod));
+        assertEquals(new BigDecimal(0),rate.calculate(stayPeriod));
     }
 
     // 25. Null Stay Period Exception
@@ -529,4 +529,66 @@ public class GunningHollyTestTask3
 
         Rate rate = new Rate(kind, normalRate, reducedRate, rP, nP);
     }
+
+// TASK 3
+    // 29. Checking for Management minimum pay 3 euro
+    @Test
+    public void minPayThree()
+    {
+        Period normalPeriod = new Period(10,21);
+        Period reducedPeriod = new Period(0,9);
+        ArrayList<Period> nP = new ArrayList<Period>();
+        ArrayList<Period> rP = new ArrayList<Period>();
+        nP.add(normalPeriod);
+        rP.add(reducedPeriod);
+        CarParkKind kind = CarParkKind.MANAGEMENT;
+        BigDecimal normalRate = new BigDecimal(1);
+        BigDecimal reducedRate = new BigDecimal(0);
+
+        Rate rate = new Rate(kind, normalRate, reducedRate, rP, nP);
+        Period stayPeriod = new Period(19,20);
+
+        assertEquals(rate.calculate(stayPeriod), new BigDecimal(3));
+    }
+
+    // 30. Checking for Staff maximum pay 16 euro
+    @Test
+    public void maxPay()
+    {
+        Period normalPeriod = new Period(8,22);
+        Period reducedPeriod = new Period(0,7);
+        ArrayList<Period> nP = new ArrayList<Period>();
+        ArrayList<Period> rP = new ArrayList<Period>();
+        nP.add(normalPeriod);
+        rP.add(reducedPeriod);
+        CarParkKind kind = CarParkKind.STAFF;
+        BigDecimal normalRate = new BigDecimal(10);
+        BigDecimal reducedRate = new BigDecimal(5);
+
+        Rate rate = new Rate(kind, normalRate, reducedRate, rP, nP);
+        Period stayPeriod = new Period(5,10);
+
+        assertEquals(rate.calculate(stayPeriod), new BigDecimal(16));
+    }
+
+    // 30. Checking for Student less than 5.50
+    @Test
+    public void lessThanFiveFifty()
+    {
+        Period normalPeriod = new Period(8,22);
+        Period reducedPeriod = new Period(0,7);
+        ArrayList<Period> nP = new ArrayList<Period>();
+        ArrayList<Period> rP = new ArrayList<Period>();
+        nP.add(normalPeriod);
+        rP.add(reducedPeriod);
+        CarParkKind kind = CarParkKind.STUDENT;
+        BigDecimal normalRate = new BigDecimal(10);
+        BigDecimal reducedRate = new BigDecimal(5);
+
+        Rate rate = new Rate(kind, normalRate, reducedRate, rP, nP);
+        Period stayPeriod = new Period(2,3);
+
+        assertEquals(rate.calculate(stayPeriod), new BigDecimal(5));
+    }
+
 }
