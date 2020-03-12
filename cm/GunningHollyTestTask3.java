@@ -449,25 +449,25 @@ public class GunningHollyTestTask3
         assertEquals(new BigDecimal(0),rate.calculate(stayPeriod));
     }
 
-    // 25. Null Stay Period Exception
-    @Test(expected = IllegalArgumentException.class)
-    public void nullStayPeriod()
-    {
-        Period normalPeriod = new Period(0,15);
-        Period reducedPeriod = new Period(16,21);
-        ArrayList<Period> nP = new ArrayList<Period>();
-        ArrayList<Period> rP = new ArrayList<Period>();
-        nP.add(normalPeriod);
-        rP.add(reducedPeriod);
-        CarParkKind kind = CarParkKind.STUDENT;
-        BigDecimal normalRate = new BigDecimal(10);
-        BigDecimal reducedRate = new BigDecimal(5);
-
-        Rate rate = new Rate(kind, normalRate, reducedRate, rP, nP);
-        Period stayPeriod = null;
-
-        assertEquals(rate.calculate(stayPeriod), null);
-    }
+//    // 25. Null Stay Period Exception
+//    @Test(expected = IllegalArgumentException.class)
+//    public void nullStayPeriod()
+//    {
+//        Period normalPeriod = new Period(0,15);
+//        Period reducedPeriod = new Period(16,21);
+//        ArrayList<Period> nP = new ArrayList<Period>();
+//        ArrayList<Period> rP = new ArrayList<Period>();
+//        nP.add(normalPeriod);
+//        rP.add(reducedPeriod);
+//        CarParkKind kind = CarParkKind.STUDENT;
+//        BigDecimal normalRate = new BigDecimal(10);
+//        BigDecimal reducedRate = new BigDecimal(5);
+//
+//        Rate rate = new Rate(kind, normalRate, reducedRate, rP, nP);
+//        Period stayPeriod = null;
+//
+//        assertEquals(rate.calculate(stayPeriod), null);
+//    }
 
     // 26. Triple overlap of normalPeriod
     @Test(expected = IllegalArgumentException.class)
