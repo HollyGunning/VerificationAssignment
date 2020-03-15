@@ -20,11 +20,6 @@ public class Rate {
     private ArrayList<Period> normal = new ArrayList<>();
     //NEW
     private calculateInterface calculations;
-//    private final calculateInterface visitorRate = new VisitorRate();
-//    private final calculateInterface managementRate = new ManagementRate();
-//    private final calculateInterface studentRate = new StudentRate();
-//    private final calculateInterface staffRate = new StaffRate();
-    //
 
     public Rate(CarParkKind kind, BigDecimal normalRate, BigDecimal reducedRate, ArrayList<Period> reducedPeriods
             , ArrayList<Period> normalPeriods) {
