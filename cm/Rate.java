@@ -5,6 +5,7 @@ import sun.reflect.generics.visitor.Visitor;
 
 import javax.tools.JavaFileObject;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,15 +116,13 @@ public class Rate {
 
         switch (kind) {
             case VISITOR:
-                return visitorRate.calculate(baseCost);
+                return visitorRate.calculate(baseCost).setScale(2, RoundingMode.HALF_EVEN);
             case MANAGEMENT:
-                return managementRate.calculate(baseCost);
+                return managementRate.calculate(baseCost).setScale(2, RoundingMode.HALF_EVEN);
             case STUDENT:
-                return studentRate.calculate(baseCost);
+                return studentRate.calculate(baseCost).setScale(2, RoundingMode.HALF_EVEN);
             default:
-                return staffRate.calculate(baseCost);
-
-
+                return staffRate.calculate(baseCost).setScale(2, RoundingMode.HALF_EVEN);
         }
     }
 }

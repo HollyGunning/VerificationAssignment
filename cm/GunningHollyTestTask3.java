@@ -345,7 +345,7 @@ public class GunningHollyTestTask3
         Rate rate = new Rate(kind, normalRate, reducedRate, rP, nP);
         Period stayPeriod = new Period(4,7);
 
-        assertEquals(rate.calculate(stayPeriod), new BigDecimal(15));
+        assertEquals(rate.calculate(stayPeriod), new BigDecimal("15.00"));
     }
 
     //  20. During normalPeriod
@@ -365,7 +365,7 @@ public class GunningHollyTestTask3
         Rate rate = new Rate(kind, normalRate, reducedRate, rP, nP);
         Period stayPeriod = new Period(2,7);
 
-        assertEquals(rate.calculate(stayPeriod), new BigDecimal(21));
+        assertEquals(rate.calculate(stayPeriod), new BigDecimal("21.00"));
     }
 
     // 21. During reducedPeriod
@@ -385,7 +385,7 @@ public class GunningHollyTestTask3
         Rate rate = new Rate(kind, normalRate, reducedRate, rP, nP);
         Period stayPeriod = new Period(15,18);
 
-        assertEquals(rate.calculate(stayPeriod), new BigDecimal("12.6250"));
+        assertEquals(rate.calculate(stayPeriod), new BigDecimal("12.62"));
     }
 
     // 22. During freePeriod
@@ -405,7 +405,7 @@ public class GunningHollyTestTask3
         Rate rate = new Rate(kind, normalRate, reducedRate, rP, nP);
         Period stayPeriod = new Period(0,6);
 
-        assertEquals(rate.calculate(stayPeriod), new BigDecimal(0));
+        assertEquals(rate.calculate(stayPeriod), new BigDecimal("0.00"));
     }
 
     // 23. Between normal and free period
@@ -425,7 +425,7 @@ public class GunningHollyTestTask3
         Rate rate = new Rate(kind, normalRate, reducedRate, rP, nP);
         Period stayPeriod = new Period(19,23);
 
-        assertEquals(rate.calculate(stayPeriod), new BigDecimal(20));
+        assertEquals(rate.calculate(stayPeriod), new BigDecimal("20.00"));
 
     }
 
@@ -446,7 +446,7 @@ public class GunningHollyTestTask3
         Rate rate = new Rate(kind, normalRate, reducedRate, rP, nP);
         Period stayPeriod = new Period(19,21);
 
-        assertEquals(new BigDecimal(0),rate.calculate(stayPeriod));
+        assertEquals(new BigDecimal("0.00"),rate.calculate(stayPeriod));
     }
 
 //    // 25. Null Stay Period Exception  NOT NECESSARY?
@@ -548,7 +548,7 @@ public class GunningHollyTestTask3
         Rate rate = new Rate(kind, normalRate, reducedRate, rP, nP);
         Period stayPeriod = new Period(19,20);
 
-        assertEquals(rate.calculate(stayPeriod), new BigDecimal(3));
+        assertEquals(rate.calculate(stayPeriod), new BigDecimal("3.00"));
     }
 
     // 30. Checking for Staff maximum pay 16 euro
@@ -568,7 +568,7 @@ public class GunningHollyTestTask3
         Rate rate = new Rate(kind, normalRate, reducedRate, rP, nP);
         Period stayPeriod = new Period(5,10);
 
-        assertEquals(rate.calculate(stayPeriod), new BigDecimal(16));
+        assertEquals(rate.calculate(stayPeriod), new BigDecimal("16.00"));
     }
 
     // 30. Checking for Student less than 5.50
@@ -588,7 +588,7 @@ public class GunningHollyTestTask3
         Rate rate = new Rate(kind, normalRate, reducedRate, rP, nP);
         Period stayPeriod = new Period(2,3);
 
-        assertEquals(rate.calculate(stayPeriod), new BigDecimal(5));
+        assertEquals(rate.calculate(stayPeriod), new BigDecimal("5.00"));
     }
 
 }

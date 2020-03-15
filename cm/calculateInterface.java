@@ -1,7 +1,6 @@
 package cm;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 public interface calculateInterface {
     BigDecimal calculate(BigDecimal baseCost);
@@ -20,10 +19,7 @@ class VisitorRate implements calculateInterface{
         else {
             return baseCost.subtract(firstEightEuro).divide(reduction);
         }
-
-        //return baseCost.setScale(2, RoundingMode.HALF_EVEN);
     }
-
 }
 
 
