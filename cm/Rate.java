@@ -19,10 +19,11 @@ public class Rate {
     private ArrayList<Period> reduced = new ArrayList<>();
     private ArrayList<Period> normal = new ArrayList<>();
     //NEW
-    private final calculateInterface visitorRate = new VisitorRate();
-    private final calculateInterface managementRate = new ManagementRate();
-    private final calculateInterface studentRate = new StudentRate();
-    private final calculateInterface staffRate = new StaffRate();
+    private calculateInterface calculations;
+//    private final calculateInterface visitorRate = new VisitorRate();
+//    private final calculateInterface managementRate = new ManagementRate();
+//    private final calculateInterface studentRate = new StudentRate();
+//    private final calculateInterface staffRate = new StaffRate();
     //
 
     public Rate(CarParkKind kind, BigDecimal normalRate, BigDecimal reducedRate, ArrayList<Period> reducedPeriods
@@ -113,16 +114,30 @@ public class Rate {
         BigDecimal baseCost = this.hourlyNormalRate.multiply(BigDecimal.valueOf(normalRateHours)).add(
                 this.hourlyReducedRate.multiply(BigDecimal.valueOf(reducedRateHours)));
 
-
-        switch (kind) {
-            case VISITOR:
-                return visitorRate.calculate(baseCost).setScale(2, RoundingMode.HALF_EVEN);
-            case MANAGEMENT:
-                return managementRate.calculate(baseCost).setScale(2, RoundingMode.HALF_EVEN);
-            case STUDENT:
-                return studentRate.calculate(baseCost).setScale(2, RoundingMode.HALF_EVEN);
-            default:
-                return staffRate.calculate(baseCost).setScale(2, RoundingMode.HALF_EVEN);
+        if(periodStay.occurences(normal) == 0 && periodStay.occurences(reduced) == 0){
+            baseCost = BigDecimal.valueOf(0).setScale(2, RoundingMode.HALF_EVEN);
         }
+        else{
+            switch (this.kind) {
+                case VISITOR:
+                    calculations = new VisitorRate();
+                    baseCost = calculations.calculate(baseCost).setScale(2, RoundingMode.HALF_EVEN);
+                    break;
+                case MANAGEMENT:
+                    calculations = new ManagementRate();
+                    baseCost = calculations.calculate(baseCost).setScale(2, RoundingMode.HALF_EVEN);
+                    break;
+                case STUDENT:
+                    calculations = new StudentRate();
+                    baseCost = calculations.calculate(baseCost).setScale(2, RoundingMode.HALF_EVEN);
+                    break;
+                default:
+                    calculations = new StaffRate();
+                    baseCost = calculations.calculate(baseCost).setScale(2, RoundingMode.HALF_EVEN);
+                    break;
+            }
+        }
+
+     return baseCost;
     }
 }
