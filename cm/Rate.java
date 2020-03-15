@@ -19,7 +19,9 @@ public class Rate {
     private ArrayList<Period> normal = new ArrayList<>();
     //NEW
     private final calculateInterface visitorRate = new VisitorRate();
-
+    private final calculateInterface managementRate = new ManagementRate();
+    private final calculateInterface studentRate = new StudentRate();
+    private final calculateInterface staffRate = new StaffRate();
     //
 
     public Rate(CarParkKind kind, BigDecimal normalRate, BigDecimal reducedRate, ArrayList<Period> reducedPeriods
@@ -114,6 +116,14 @@ public class Rate {
         switch (kind) {
             case VISITOR:
                 return visitorRate.calculate(baseCost);
+            case MANAGEMENT:
+                return managementRate.calculate(baseCost);
+            case STUDENT:
+                return studentRate.calculate(baseCost);
+            case STAFF:
+                return staffRate.calculate(baseCost);
+            default:
+                return baseCost;
         }
 
 //        if (this.kind == CarParkKind.VISITOR) {
@@ -155,6 +165,5 @@ public class Rate {
 //                return maxPay;
 //            }
 //        }
-        return baseCost;
     }
 }
