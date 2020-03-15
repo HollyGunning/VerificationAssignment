@@ -449,7 +449,7 @@ public class GunningHollyTestTask3
         assertEquals(new BigDecimal(0),rate.calculate(stayPeriod));
     }
 
-//    // 25. Null Stay Period Exception
+//    // 25. Null Stay Period Exception  NOT NECESSARY?
 //    @Test(expected = IllegalArgumentException.class)
 //    public void nullStayPeriod()
 //    {

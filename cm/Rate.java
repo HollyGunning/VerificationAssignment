@@ -17,6 +17,10 @@ public class Rate {
     private BigDecimal hourlyReducedRate;
     private ArrayList<Period> reduced = new ArrayList<>();
     private ArrayList<Period> normal = new ArrayList<>();
+    //NEW
+    private final calculateInterface visitorRate = new VisitorRate();
+
+    //
 
     public Rate(CarParkKind kind, BigDecimal normalRate, BigDecimal reducedRate, ArrayList<Period> reducedPeriods
             , ArrayList<Period> normalPeriods) {
@@ -106,45 +110,51 @@ public class Rate {
         BigDecimal baseCost = this.hourlyNormalRate.multiply(BigDecimal.valueOf(normalRateHours)).add(
                 this.hourlyReducedRate.multiply(BigDecimal.valueOf(reducedRateHours)));
 
-        if (this.kind == CarParkKind.VISITOR) {
-            BigDecimal firstEightEuro = new BigDecimal("8");
-            BigDecimal reduction = new BigDecimal("2");
 
-            if (baseCost.compareTo(firstEightEuro) <= 0) {
-                return new BigDecimal(0);
-            } else {
-                return baseCost.subtract(firstEightEuro).divide(reduction);
-            }
+        switch (kind) {
+            case VISITOR:
+                return visitorRate.calculate(baseCost);
         }
-        else if (this.kind == CarParkKind.MANAGEMENT) {
-            BigDecimal minPay = new BigDecimal("3");
 
-            if (baseCost.compareTo(minPay) < 0) {
-                return minPay;
-            } else {
-                return baseCost;
-            }
-        }
-        else if (this.kind == CarParkKind.STUDENT) {
-            BigDecimal standard = new BigDecimal("5.50");
-            BigDecimal remainder = baseCost.subtract(standard);
-            BigDecimal threeQuarter = new BigDecimal("0.75");
-
-            if (baseCost.compareTo(standard) <= 0) {
-                return baseCost;
-            } else if (baseCost.compareTo(standard) > 0) {
-                baseCost = threeQuarter.multiply(remainder).add(standard);
-            }
-        }
-        else if (this.kind == CarParkKind.STAFF) {
-            BigDecimal maxPay = new BigDecimal("16");
-
-            if (baseCost.compareTo(maxPay) < 0) {
-                return baseCost;
-            } else {
-                return maxPay;
-            }
-        }
+//        if (this.kind == CarParkKind.VISITOR) {
+//            BigDecimal firstEightEuro = new BigDecimal("8");
+//            BigDecimal reduction = new BigDecimal("2");
+//
+//            if (baseCost.compareTo(firstEightEuro) <= 0) {
+//                return new BigDecimal(0);
+//            } else {
+//                return baseCost.subtract(firstEightEuro).divide(reduction);
+//            }
+//        }
+//        else if (this.kind == CarParkKind.MANAGEMENT) {
+//            BigDecimal minPay = new BigDecimal("3");
+//
+//            if (baseCost.compareTo(minPay) < 0) {
+//                return minPay;
+//            } else {
+//                return baseCost;
+//            }
+//        }
+//        else if (this.kind == CarParkKind.STUDENT) {
+//            BigDecimal standard = new BigDecimal("5.50");
+//            BigDecimal remainder = baseCost.subtract(standard);
+//            BigDecimal threeQuarter = new BigDecimal("0.75");
+//
+//            if (baseCost.compareTo(standard) <= 0) {
+//                return baseCost;
+//            } else if (baseCost.compareTo(standard) > 0) {
+//                baseCost = threeQuarter.multiply(remainder).add(standard);
+//            }
+//        }
+//        else if (this.kind == CarParkKind.STAFF) {
+//            BigDecimal maxPay = new BigDecimal("16");
+//
+//            if (baseCost.compareTo(maxPay) < 0) {
+//                return baseCost;
+//            } else {
+//                return maxPay;
+//            }
+//        }
         return baseCost;
     }
 }
